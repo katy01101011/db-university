@@ -1,17 +1,24 @@
 <?php
 require_once __DIR__ . "/server.php";
+require_once __DIR__ . "/Department.php";
 
 // Imposto query per database
-$departmentsDB = "SELECT * FROM `departments`;";
-$result = $conn->query($departmentsDB);
+$sql = "SELECT `id`, `name` FROM `departments`;";
+$result = $conn->query($sql);
+$departments = [];
 
 // Controllo che il risultato ci sia e che non sia vuoto
 if ($result && $result->num_rows > 0) {
     // Mostro i risultati
     while ($row = $result->fetch_assoc()) {
         // var_dump($row);
+        $curr_department = new Department($row["id"], $row["name"]);
+        $departments[] = $curr_department;
+        // var_dump($departments);
     }
-} elseif ($result && $result->num_rows = 0) {
+
+    
+} elseif ($result) {
     // Query è corretta ma non ci sono risultati
     echo "Non ci sono risultati";
 } else {
@@ -38,7 +45,7 @@ if ($result && $result->num_rows > 0) {
                 echo $department["name"];
             ?>
         </h2>
-        <a href="">Info dipartimento</a>
+        <a href="department_info.php">Info dipartimento</a>
     <?php } ?>
 </body>
 
